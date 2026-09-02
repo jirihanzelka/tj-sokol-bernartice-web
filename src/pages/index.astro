@@ -173,8 +173,11 @@ const sections = [
     </footer>
 
     <script is:inline>
+      const header = document.querySelector('.site-header');
       const button = document.querySelector('.menu-button');
       const menu = document.querySelector('#mobile-menu');
+      const navigationLinks = document.querySelectorAll('.desktop-nav a, .mobile-menu a');
+      const pageSections = document.querySelectorAll('main section[id], footer[id]');
 
       const closeMenu = () => {
         if (!button || !menu) return;
@@ -198,9 +201,39 @@ const sections = [
       });
 
       menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+      const updateHeader = () => {
+        header?.classList.toggle('is-scrolled', window.scrollY > 72);
+
+        const marker = window.scrollY + Math.min(window.innerHeight * 0.32, 260);
+        let currentSection = '';
+
+        pageSections.forEach((section) => {
+          if (section.offsetTop <= marker) currentSection = section.id;
+        });
+
+        navigationLinks.forEach((link) => {
+          const isCurrent = link.getAttribute('href') === `#${currentSection}`;
+          if (isCurrent) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      };
+
+      let scrollFrame;
+      const requestHeaderUpdate = () => {
+        if (scrollFrame) return;
+        scrollFrame = window.requestAnimationFrame(() => {
+          updateHeader();
+          scrollFrame = undefined;
+        });
+      };
+
+      window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
       window.addEventListener('resize', () => {
-        if (window.innerWidth >= 820) closeMenu();
+        if (window.innerWidth > 820) closeMenu();
+        requestHeaderUpdate();
       });
+      updateHeader();
     </script>
   </body>
 </html>
@@ -219,6 +252,12 @@ const sections = [
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  #program,
+  #oddily,
+  #mista,
+  #klub,
+  #kontakt { scroll-margin-top: 88px; }
 
   body {
     margin: 0;
@@ -246,8 +285,8 @@ const sections = [
   .skip-link:focus { transform: translateY(0); }
 
   .site-header {
-    position: absolute;
-    z-index: 10;
+    position: fixed;
+    z-index: 20;
     top: 26px;
     left: clamp(20px, 4.8vw, 72px);
     display: flex;
@@ -256,8 +295,32 @@ const sections = [
     align-items: center;
     gap: 36px;
     padding: 14px 30px 14px 34px;
+    border: 1px solid transparent;
     border-radius: 28px;
     background: rgba(255, 255, 255, 0.96);
+    transition:
+      top 200ms ease,
+      left 200ms ease,
+      width 200ms ease,
+      min-height 200ms ease,
+      padding 200ms ease,
+      border-radius 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .site-header.is-scrolled {
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 64px;
+    padding: 6px clamp(30px, 5vw, 72px);
+    border-color: transparent transparent var(--line);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 8px 24px rgba(21, 21, 21, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   .brand {
@@ -266,6 +329,7 @@ const sections = [
     align-items: center;
     gap: 20px;
     text-decoration: none;
+    transition: gap 200ms ease;
   }
 
   .brand img {
@@ -273,6 +337,7 @@ const sections = [
     height: 72px;
     flex: 0 0 auto;
     object-fit: contain;
+    transition: width 200ms ease, height 200ms ease;
   }
 
   .brand-name {
@@ -282,12 +347,29 @@ const sections = [
     white-space: nowrap;
     font-size: clamp(18px, 1.45vw, 23px);
     letter-spacing: -0.035em;
+    transition: font-size 200ms ease;
   }
 
   .brand-name strong {
     font-size: 1.2em;
     font-weight: 780;
   }
+
+  .site-header.is-scrolled .brand { gap: 12px; }
+
+  .site-header.is-scrolled .brand img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .site-header.is-scrolled .brand-name {
+    flex-direction: row;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .site-header.is-scrolled .brand-name strong { font-size: 1.12em; }
 
   .desktop-nav {
     display: flex;
@@ -298,6 +380,7 @@ const sections = [
   }
 
   .desktop-nav a {
+    position: relative;
     padding: 12px 0;
     text-decoration: none;
     text-underline-offset: 6px;
@@ -318,8 +401,24 @@ const sections = [
 
   .desktop-nav .contact-link { color: var(--red); }
 
+  .site-header.is-scrolled .desktop-nav { font-size: 16px; }
+
+  .site-header.is-scrolled .desktop-nav a[aria-current='location'] {
+    color: var(--red);
+  }
+
+  .site-header.is-scrolled .desktop-nav a[aria-current='location']::after {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    left: 0;
+    height: 2px;
+    background: var(--red);
+    content: '';
+  }
+
   .menu-button {
-    display: grid;
+    display: none;
     width: 52px;
     height: 52px;
     flex: 0 0 auto;
@@ -355,6 +454,11 @@ const sections = [
   .mobile-menu a:last-child {
     border-bottom: 0;
     color: var(--red);
+  }
+
+  .mobile-menu a[aria-current='location'] {
+    color: var(--red);
+    font-weight: 680;
   }
 
   .hero {
@@ -701,7 +805,35 @@ const sections = [
 
     .brand-name { font-size: 14px; }
     .desktop-nav { display: none; }
-    .menu-button { margin-left: auto; }
+
+    .menu-button {
+      display: grid;
+      margin-left: auto;
+    }
+
+    .site-header.is-scrolled {
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 64px;
+      padding: 6px 12px;
+      border-radius: 0;
+    }
+
+    .site-header.is-scrolled .brand img {
+      width: 44px;
+      height: 44px;
+    }
+
+    .site-header.is-scrolled .brand-name {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0;
+      font-size: 13px;
+      line-height: 1.1;
+    }
+
+    .site-header.is-scrolled .mobile-menu { right: 12px; }
     .hero { min-height: 720px; }
     .hero-image { object-position: 64% center; }
     .hero-shade { background: rgba(2, 10, 6, 0.38); }
