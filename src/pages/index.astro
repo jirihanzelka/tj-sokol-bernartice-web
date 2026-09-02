@@ -3,6 +3,7 @@ import '@fontsource-variable/manrope';
 import '@phosphor-icons/web/regular';
 
 const base = import.meta.env.BASE_URL;
+const assetBase = base.endsWith('/') ? base : `${base}/`;
 
 const quickLinks = [
   { href: '#program', label: 'Co se děje' },
@@ -29,7 +30,7 @@ const sections = [
       name="description"
       content="TJ Sokol Bernartice nad Odrou — sport a setkávání pro všechny generace."
     />
-    <link rel="icon" type="image/png" href={`${base}images/sokol-symbol.png`} />
+    <link rel="icon" type="image/png" href={`${assetBase}images/sokol-symbol.png`} />
     <title>TJ Sokol Bernartice nad Odrou</title>
   </head>
   <body>
@@ -37,7 +38,7 @@ const sections = [
 
     <header class="site-header" aria-label="Hlavní navigace">
       <a class="brand" href="#top" aria-label="TJ Sokol Bernartice nad Odrou — úvod">
-        <img src={`${base}images/sokol-symbol.png`} alt="" width="64" height="64" />
+        <img src={`${assetBase}images/sokol-symbol.png`} alt="" width="64" height="64" />
         <span class="brand-name"><strong>TJ Sokol</strong> Bernartice nad Odrou</span>
       </a>
 
@@ -72,7 +73,7 @@ const sections = [
       <section class="hero" id="top" aria-labelledby="hero-title">
         <img
           class="hero-image"
-          src={`${base}images/hero-odra-community.webp`}
+          src={`${assetBase}images/hero-odra-community.webp`}
           alt="Děti, dospělí a senioři sportují na louce u řeky Odry"
           width="1821"
           height="864"
