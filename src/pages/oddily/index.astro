@@ -1,0 +1,56 @@
+---
+import SectionCard from '../../components/sections/SectionCard.astro';
+import { clubSections } from '../../data/content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+---
+
+<ContentLayout
+  title="Oddíly"
+  description="Přehled šesti oddílů uvedených na původním webu TJ Sokol Bernartice nad Odrou."
+  eyebrow="Najděte si svůj pohyb"
+  activeNav="sections"
+>
+  <section class="sections-overview" aria-label="Seznam oddílů">
+    <div class="overview-copy">
+      <p class="eyebrow red">Jeden Sokol</p>
+      <h2>Od týmových sportů po pohyb pro všechny.</h2>
+      <p>
+        Původní web neobsahuje aktuální rozvrhy. Vyberte si oddíl; nové termíny a možnosti
+        zapojení doplníme po jejich potvrzení.
+      </p>
+    </div>
+    <div class="overview-list">
+      {clubSections.map((section) => <SectionCard section={section} />)}
+    </div>
+  </section>
+
+</ContentLayout>
+
+<style>
+  .sections-overview {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.35fr);
+    gap: clamp(50px, 9vw, 150px);
+    padding: clamp(84px, 9vw, 140px) clamp(30px, 7.8vw, 120px);
+  }
+
+  .overview-copy { position: sticky; top: 110px; align-self: start; }
+
+  h2 {
+    margin-bottom: 22px;
+    font-size: clamp(38px, 4.7vw, 68px);
+    line-height: 1.03;
+    letter-spacing: -0.055em;
+  }
+
+  .overview-copy > p:last-child { max-width: 480px; color: var(--muted); font-size: 18px; }
+
+  @media (max-width: 880px) {
+    .sections-overview { grid-template-columns: 1fr; gap: 40px; }
+    .overview-copy { position: static; }
+  }
+
+  @media (max-width: 520px) {
+    .sections-overview { padding-inline: 20px; }
+  }
+</style>

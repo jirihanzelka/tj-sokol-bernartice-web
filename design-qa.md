@@ -1,67 +1,76 @@
-# Design QA — sticky header
+# Design QA — rozšíření webu TJ Sokol
 
 ## Evidence
 
-- Source visual truth: `/Users/jirka/.codex/generated_images/01a0639f-439c-77e3-bcc6-967d34f4a3e8/exec-9d16e31e-0f13-4e53-b79a-67b5daefcec9.png`
-- Source dimensions: 1487 × 1058 px.
-- Browser-rendered implementation: captured and inspected in the Codex in-app browser during this run; the browser did not expose a writable local screenshot path.
-- Implementation capture dimensions: 1425 × 1013 px from a 1440 × 1024 CSS viewport at device pixel ratio 1.
-- States checked: homepage top, desktop sticky state at `#program`, desktop active-section state, mobile top, mobile sticky state, mobile menu open, and mobile `#oddily` anchor target.
-- Density normalization: source and implementation were inspected at approximately matching desktop viewport proportions. A filesystem-backed combined comparison could not be produced.
+- Zdrojový vizuál homepage, desktop: `/Users/jirka/Development/tj-sokol-bernartice-web/implementation-desktop.jpg` (1426 × 1014 px).
+- Zdrojový vizuál homepage, mobil: `/Users/jirka/Development/tj-sokol-bernartice-web/implementation-mobile.jpg` (416 × 901 px; původní zachycený mobilní stav).
+- Zdrojová stránka historie: `/Users/jirka/Development/tj-sokol-bernartice-web/docs/original-site/screenshots/03-history.jpg`.
+- Implementace homepage, desktop: `/Users/jirka/Development/tj-sokol-bernartice-web/design-qa-home-desktop.jpg` (1425 × 1004 px).
+- Implementace homepage, mobil: `/Users/jirka/Development/tj-sokol-bernartice-web/design-qa-home-mobile.jpg` (390 × 818 px).
+- Implementace historie, desktop: `/Users/jirka/Development/tj-sokol-bernartice-web/design-qa-history-desktop.jpg` (1425 × 1004 px).
+- Implementace historie, mobil: `/Users/jirka/Development/tj-sokol-bernartice-web/design-qa-history-mobile.jpg` (390 × 818 px).
+- Otevřené mobilní menu: `/Users/jirka/Development/tj-sokol-bernartice-web/design-qa-menu-mobile.jpg`.
+- Prohlížeč: Codex in-app browser proti `http://127.0.0.1:4321/tj-sokol-bernartice-web/`.
 
-## Full-view comparison
+Homepage screenshoty zachycují stav před následným dočasným vyřazením Kontaktů; aktuální navigace bez Kontaktů byla znovu ověřena v živém lokálním náhledu.
 
-The implementation preserves the existing homepage at the top and adopts the selected direction after scrolling: a white 64px full-width top bar, compact official symbol and brand, right-aligned navigation, thin lower divider, restrained shadow, and a red current-section underline. The page content remains unchanged.
+Zdrojová a implementační homepage byly porovnány společně při téměř shodné desktopové hustotě. Původní stránka historie a nová historie byly porovnány společně jako informační a vizuální transformace, nikoli jako pixelový klon.
 
-The live implementation was visually inspected in the same browser used for interaction testing. Formal side-by-side evidence is blocked because the in-app browser capture could not be saved to a local file for a combined comparison input.
+## Výsledek vizuálního srovnání
 
-## Focused-region comparison
+Homepage zachovává původní vizuální jazyk: Manrope, červenou značku, velkou fotografii u Odry, bílou plovoucí hlavičku, stejné měřítko hero textu, trojici rychlých vstupů a střídmé linky. Záměrné změny jsou pouze obsahové a navigační: přibyly Historie a Sportoviště, zmizel nadbytečný desktopový hamburger a smyšlená ukázková akce byla nahrazena poctivým prázdným stavem.
 
-- Header height: selected direction approximately 64px; implementation measured 64px.
-- Logo: selected direction uses the official symbol; implementation reuses `public/images/sokol-symbol.png` at 44px in the sticky state.
-- Navigation: selected direction contains Program, Oddíly, Klub, Kontakt; implementation matches and removes the former duplicate desktop hamburger.
-- Active state: selected direction uses a restrained red underline; implementation matches and exposes `aria-current="location"`.
-- Mobile: the large floating header transitions to a 64px full-width bar; the menu remains operable and closes after anchor navigation.
+Historie převádí úzký, dlouhý Webnode výpis do stejného design systému jako homepage: jasný úvod, jeden výrazný archivní snímek, editovaná časová osa, čtyři dochované kroniky a kurátorská galerie. Obsah zůstává čitelný bez povinného JavaScriptu.
 
-## Findings
+## Povinné fidelity plochy
 
-- No P0, P1, or P2 issue was observed in the live browser inspection.
-- P3: The generated source mock changes unrelated page copy and section content. The implementation intentionally preserves the real site content and uses the mock only as header direction.
-- Blocker: a filesystem-backed implementation capture and combined source/implementation comparison are unavailable in this run.
+- Typografie: self-hosted Manrope zůstává beze změny; velikosti a řezy navazují na homepage.
+- Barvy: zachované tokeny `--red`, `--ink`, `--soft`, `--line` a doplněný pouze neutrální `--muted`.
+- Layout: stejné velké okraje, výrazná typografická hierarchie, tenké dělicí linky a střídání bílé, šedé, černé a červené plochy.
+- Assety: původní symbol Sokola a lokální fotografie; žádné placeholdery, CSS kresby ani improvizované logo.
+- Responsivita: bez horizontálního scrollu při kontrolovaných šířkách 320, 390, 430, 768, 1023 a 1439 px.
+- Obrázky: explicitní rozměry, Astro optimalizace, lazy loading pod prvním viewportem a smysluplné alternativní texty.
 
-## Required fidelity surfaces
+## Interakční a technická kontrola
 
-- Typography: existing self-hosted Manrope variable font is preserved; the sticky brand and navigation use a compact scale consistent with the mock.
-- Spacing and layout: the sticky bar measures 64px high, spans the viewport, and anchor targets use an 88px scroll margin so headings remain visible.
-- Colors and tokens: existing `--red`, `--ink`, and `--line` tokens are retained; the header uses an almost opaque white background and subtle neutral shadow.
-- Image quality and assets: the existing official raster Sokol symbol is reused; no placeholder or improvised logo was introduced.
-- Copy and content: navigation labels match the selected direction; existing site content remains unchanged.
+- Ověřené routy na desktopu i mobilu: `/`, `/program/`, `/oddily/`, detail oddílu, `/sportoviste/`, `/historie/`, `/podpora/`.
+- Všech šest detailů oddílů vzniká z jedné dynamické šablony přes `getStaticPaths()`.
+- Mobilní menu: otevření, zavření odkazem, klikem mimo menu, resize a klávesou Escape; `aria-expanded`, `aria-controls`, landmark a návrat fokusu jsou funkční.
+- Aktivní položka navigace používá `aria-current="page"` a je viditelná i v horním stavu stránky.
+- Interní URL, favicon, optimalizované obrázky, canonical, Open Graph a sitemap respektují GitHub Pages base path `/tj-sokol-bernartice-web/`.
+- 404 je `noindex` a nemá canonical, `og:url` ani `og:image`.
+- Prohlížeč: 0 console errors, 0 warnings; všechny viditelné obrázky se načetly.
+- Externí odkazy na nohejbal, oznámení MSK 2025 a oficiální web MSK odpověděly HTTP 200 při ověření 2. září 2026.
+- `npm run build`: exit 0; Astro check 23 souborů, 0 errors, 0 warnings, 0 hints; 13 statických stránek a 58 optimalizovaných obrazových výstupů.
+- `git diff --check`: exit 0.
 
-## Interaction and technical verification
+## Review a opravy
 
-- Desktop scroll compaction: passed.
-- Desktop Program anchor and active state: passed.
-- Mobile scroll compaction: passed.
-- Mobile menu open/close and Oddíly anchor: passed.
-- Anchor headings remain below the sticky bar: passed.
-- Browser console errors and warnings: 0.
-- Production build: passed.
-- `git diff --check`: passed after the final accessibility adjustment.
+### Pass 1 — architektura a stránky
 
-## Comparison history
+- Vytažen společný layout, hlavička, patička, design tokeny a base-path helper.
+- Přidány Program, Oddíly, Sportoviště, Historie a galerie, Podpora a 404; Kontakt byl následně dočasně vyřazen do dodání nové adresy.
+- Smysluplně sloučeny původní historie s galerií a podstránky oddílů do jedné šablony.
 
-### Pass 1
+### Pass 2 — nezávislý code, content a compliance review
 
-- Removed the duplicate desktop hamburger visible in the previous implementation.
-- Added the 64px sticky state, current-section underline, mobile sticky state, and anchor offsets.
-- Live browser inspection found no actionable P0/P1/P2 visual issue.
+- Breakpoint navigace posunut na 1080 px a ověřen na hraně bez překryvu.
+- Doplněna klávesa Escape, klik mimo menu, mobilní landmark, aktivní stav a výchozí OG obrázek.
+- Neověřená současná tvrzení o oddílech a sportovištích nahrazena doloženým minimem.
+- Zpřesněny historické milníky, galerie a upozornění na konec podkladu v roce 2009.
+- Kontaktní stránka, staré adresy i související výzvy byly odstraněné; nový kontakt zatím není nahrazený odhadem.
+- Podpora jednoznačně uvádí jen roky 2021–2025 a výslovně netvrdí podporu 2026.
 
-### Pass 2
+### Pass 3 — responzivní a obsahová regrese
 
-- Replaced `aria-current="page"` with the more accurate `aria-current="location"` for in-page section navigation.
-- Aligned the resize boundary with the 820px CSS breakpoint.
-- Live browser metrics confirmed a 64px header, 44px logo, full viewport width, and the active Program state.
+- Opraven třípixelový overflow na nejmenší šířce odstraněním pevného `min-width` body.
+- Galerie přeuspořádána tak, aby poslední řada neměla osamocenou kartu.
+- Build, base path, metadata, lokální média, mobilní menu a všechny hlavní routy znovu ověřeny.
+
+## Oddělené release podmínky
+
+Vizuální a technická implementace prošla. Veřejné nasazení ale zůstává vědomě oddělené: TJ musí potvrdit vlastnictví a práva k převzatým fotografiím a kronikám a smluvní podmínky použití loga MSK. Kontakt je do dodání nového e-mailu mimo web. Evidence je v `docs/content-source-register.md`. Žádný commit ani push v tomto běhu neproběhl.
 
 ## Final result
 
-final result: blocked
+final result: passed

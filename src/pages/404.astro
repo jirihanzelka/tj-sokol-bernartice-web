@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { sitePath } from '../utils/urls';
+---
+
+<BaseLayout
+  title="Stránka nenalezena"
+  description="Požadovanou stránku se nepodařilo najít."
+  noindex
+>
+  <section class="not-found">
+    <p class="error-code">404</p>
+    <h1>Tudy cesta nevede<span>.</span></h1>
+    <p>Stránka mohla být přesunuta nebo už neexistuje.</p>
+    <a class="button button-home" href={sitePath()}>
+      Zpět na úvod
+      <i class="ph ph-arrow-right" aria-hidden="true"></i>
+    </a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found { min-height: 78vh; padding: clamp(190px, 20vw, 280px) clamp(30px, 7.8vw, 120px) 100px; background: var(--soft); }
+  .error-code { margin-bottom: 18px; color: var(--red); font-size: 18px; font-weight: 720; }
+  h1 { max-width: 900px; margin-bottom: 24px; }
+  h1 span { color: var(--red); }
+  .not-found > p:not(.error-code) { color: var(--muted); font-size: 20px; }
+  .button-home { margin-top: 28px; color: #fff; background: var(--ink); }
+  .button-home:hover,
+  .button-home:focus-visible { background: var(--red); }
+  @media (max-width: 520px) { .not-found { padding-inline: 20px; } }
+</style>

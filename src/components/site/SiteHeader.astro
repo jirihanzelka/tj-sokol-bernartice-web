@@ -1,0 +1,105 @@
+---
+import { site, type NavigationId } from '../../data/site';
+import { sitePath } from '../../utils/urls';
+
+interface Props {
+  activeNav?: NavigationId;
+}
+
+const { activeNav } = Astro.props;
+const homeHref = sitePath();
+---
+
+<header class="site-header" aria-label="Hlavní navigace" data-site-header>
+  <a class="brand" href={homeHref} aria-label={`${site.name} — úvod`}>
+    <img src={sitePath(site.logoPath)} alt="" width="64" height="64" />
+    <span class="brand-name">
+      <strong>{site.shortName}</strong>
+      {site.locationName}
+    </span>
+  </a>
+
+  <nav class="desktop-nav" aria-label="Hlavní menu">
+    {site.navigation.map((item) => (
+      <a href={sitePath(item.path)} aria-current={activeNav === item.id ? 'page' : undefined}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <button
+    class="menu-button"
+    type="button"
+    aria-controls="mobile-menu"
+    aria-expanded="false"
+    aria-label="Otevřít menu"
+  >
+    <i class="ph ph-list" aria-hidden="true"></i>
+  </button>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobilní menu" hidden>
+    {site.navigation.map((item) => (
+      <a href={sitePath(item.path)} aria-current={activeNav === item.id ? 'page' : undefined}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const button = header?.querySelector<HTMLButtonElement>('.menu-button');
+  const menu = header?.querySelector<HTMLElement>('#mobile-menu');
+
+  const closeMenu = (restoreFocus = false) => {
+    if (!button || !menu) return;
+    menu.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-label', 'Otevřít menu');
+    const icon = button.querySelector('i');
+    icon?.classList.remove('ph-x');
+    icon?.classList.add('ph-list');
+    if (restoreFocus) button.focus();
+  };
+
+  button?.addEventListener('click', () => {
+    if (!menu) return;
+    const opening = menu.hidden === true;
+    menu.hidden = !opening;
+    button.setAttribute('aria-expanded', String(opening));
+    button.setAttribute('aria-label', opening ? 'Zavřít menu' : 'Otevřít menu');
+    const icon = button.querySelector('i');
+    icon?.classList.toggle('ph-list', !opening);
+    icon?.classList.toggle('ph-x', opening);
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.hidden === false) closeMenu(true);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (event.target instanceof Node && !header?.contains(event.target)) closeMenu();
+  });
+
+  const updateHeader = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 72);
+  };
+
+  let scrollFrame: number | undefined;
+  const requestHeaderUpdate = () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      updateHeader();
+      scrollFrame = undefined;
+    });
+  };
+
+  window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1080) closeMenu();
+    requestHeaderUpdate();
+  });
+  updateHeader();
+</script>

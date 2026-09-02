@@ -1,0 +1,20 @@
+---
+import PageIntro from '../components/common/PageIntro.astro';
+import type { NavigationId } from '../data/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  activeNav?: NavigationId;
+  noindex?: boolean;
+}
+
+const { title, description, eyebrow, activeNav, noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} activeNav={activeNav} noindex={noindex}>
+  <PageIntro title={title} description={description} eyebrow={eyebrow} />
+  <slot />
+</BaseLayout>

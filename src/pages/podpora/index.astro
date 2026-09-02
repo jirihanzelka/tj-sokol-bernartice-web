@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+import mskLogo from '../../assets/supporters/msk.png';
+import { supportYears } from '../../data/content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+---
+
+<ContentLayout
+  title="Podpora a partneři"
+  description="Doložený přehled podpory TJ Sokol Bernartice nad Odrou z rozpočtu Moravskoslezského kraje."
+  eyebrow="Děkujeme"
+>
+  <section class="support-lead" aria-labelledby="msk-title">
+    <div class="support-logo">
+      <Image src={mskLogo} alt="" width={407} height={124} loading="eager" />
+    </div>
+    <div>
+      <p class="eyebrow red">Doložená podpora</p>
+      <h2 id="msk-title">Moravskoslezský kraj</h2>
+      <p class="support-statement">
+        TJ Sokol Bernartice nad Odrou, spolek byl v letech 2021–2025 podporován a
+        spolufinancován z rozpočtu Moravskoslezského kraje. Děkujeme za podporu.
+      </p>
+      <a class="official-link" href="https://www.msk.cz/" target="_blank" rel="noreferrer">
+        Oficiální web kraje
+        <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </section>
+
+  <section class="support-archive" aria-labelledby="archive-title">
+    <div class="archive-heading">
+      <p class="eyebrow red">Archiv 2021–2025</p>
+      <h2 id="archive-title">Pět doložených roků.</h2>
+      <p>
+        Datum u každé položky označuje zveřejnění původního oznámení, nikoli datum poskytnutí
+        podpory. Podporu pro rok 2026 tato stránka netvrdí.
+      </p>
+    </div>
+    <ol class="archive-list">
+      {supportYears.map((item) => (
+        <li>
+          <span class="archive-year">{item.year}</span>
+          <span class="archive-date"><small>Zveřejněno</small>{item.published}</span>
+          <a href={item.source} target="_blank" rel="noreferrer">
+            Původní oznámení
+            <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</ContentLayout>
+
+<style>
+  .support-lead {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr);
+    align-items: center;
+    gap: clamp(50px, 9vw, 150px);
+    padding: clamp(80px, 10vw, 150px) clamp(30px, 7.8vw, 120px);
+  }
+  .support-logo { display: grid; min-height: 280px; place-items: center; padding: 40px; background: var(--soft); }
+  .support-logo :global(img) { display: block; width: min(100%, 407px); height: auto; }
+  .support-lead h2,
+  .archive-heading h2 { margin-bottom: 22px; font-size: clamp(40px, 5vw, 74px); line-height: 1.03; letter-spacing: -0.055em; }
+  .support-statement { max-width: 760px; color: var(--muted); font-size: clamp(18px, 1.8vw, 23px); }
+  .official-link { display: inline-flex; align-items: center; gap: 24px; margin-top: 24px; padding-bottom: 8px; border-bottom: 2px solid var(--red); color: var(--red); font-weight: 720; text-decoration: none; }
+
+  .support-archive {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(50px, 9vw, 150px);
+    padding: clamp(80px, 10vw, 150px) clamp(30px, 7.8vw, 120px);
+    background: var(--soft);
+  }
+  .archive-heading > p:last-child { max-width: 530px; color: var(--muted); }
+  .archive-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid #cececa; }
+  .archive-list li { display: grid; grid-template-columns: 100px minmax(0, 1fr) auto; min-height: 104px; align-items: center; gap: 22px; border-bottom: 1px solid #cececa; }
+  .archive-year { color: var(--red); font-size: 30px; font-weight: 760; font-variant-numeric: tabular-nums; }
+  .archive-date { font-variant-numeric: tabular-nums; }
+  .archive-date small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .archive-list a { display: inline-flex; align-items: center; gap: 16px; color: var(--red); font-weight: 680; text-decoration: none; }
+
+  @media (max-width: 880px) {
+    .support-lead,
+    .support-archive { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    .support-lead,
+    .support-archive { padding-inline: 20px; }
+    .support-logo { min-height: 220px; padding: 28px; }
+    .archive-list li { grid-template-columns: 72px 1fr; padding: 20px 0; }
+    .archive-list a { grid-column: 2; }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { sitePath } from '../../utils/urls';
+---
+
+<ContentLayout
+  title="Program"
+  description="Přehled akcí a společných aktivit TJ Sokol Bernartice nad Odrou."
+  eyebrow="Co se děje"
+  activeNav="program"
+>
+  <section class="program-shell" aria-labelledby="program-status-title">
+    <div class="program-status">
+      <div class="calendar-mark" aria-hidden="true">
+        <i class="ph ph-calendar-dots"></i>
+      </div>
+      <div>
+        <p class="status-label">Aktuálně</p>
+        <h2 id="program-status-title">Program právě doplňujeme.</h2>
+        <p>
+          Starý kalendář obsahoval převážně neověřená opakování založená před mnoha lety.
+          Dokud nepotvrdíme nový zdroj termínů, raději nezobrazujeme událost, která už nemusí platit.
+        </p>
+      </div>
+    </div>
+
+    <aside class="program-contact" aria-labelledby="program-contact-title">
+      <p class="eyebrow red">Co mezitím?</p>
+      <h2 id="program-contact-title">Prohlédněte si naše oddíly.</h2>
+      <p>Aktuální termíny zveřejníme, jakmile budou potvrzené.</p>
+      <a class="quiet-link" href={sitePath('oddily/')}>Vybrat oddíl</a>
+    </aside>
+  </section>
+</ContentLayout>
+
+<style>
+  .program-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    min-height: 560px;
+  }
+
+  .program-status {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    gap: clamp(24px, 5vw, 74px);
+    padding: clamp(70px, 9vw, 140px) clamp(30px, 7.8vw, 120px);
+  }
+
+  .calendar-mark {
+    display: grid;
+    width: 88px;
+    height: 88px;
+    place-items: center;
+    border: 2px solid var(--red);
+    color: var(--red);
+    font-size: 42px;
+  }
+
+  .status-label { margin-bottom: 10px; color: var(--red); font-weight: 720; }
+
+  .program-status h2,
+  .program-contact h2 {
+    margin-bottom: 20px;
+    font-size: clamp(36px, 4.2vw, 64px);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+
+  .program-status div:last-child > p:last-child {
+    max-width: 680px;
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .program-contact {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: clamp(60px, 7vw, 100px);
+    color: #fff;
+    background: var(--ink);
+  }
+
+  .program-contact > p:not(.eyebrow) { color: #c9c9c9; }
+
+  .quiet-link {
+    width: fit-content;
+    margin-top: 24px;
+    color: #fff;
+    text-underline-offset: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .program-shell { grid-template-columns: 1fr; }
+    .program-contact { min-height: 420px; }
+  }
+
+  @media (max-width: 560px) {
+    .program-status { grid-template-columns: 1fr; padding-inline: 20px; }
+    .calendar-mark { width: 68px; height: 68px; font-size: 34px; }
+    .program-contact { min-height: 0; padding: 64px 20px; }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+import { site } from '../../data/site';
+import { sitePath } from '../../utils/urls';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div>
+    <p class="eyebrow red">Podpora</p>
+    <h2>Pomáhají nám.</h2>
+    <nav class="footer-links" aria-label="Odkazy v patičce">
+      <a href={sitePath(site.supportPath)}>Podpora a partneři</a>
+    </nav>
+  </div>
+  <p>© {year} {site.name}</p>
+</footer>

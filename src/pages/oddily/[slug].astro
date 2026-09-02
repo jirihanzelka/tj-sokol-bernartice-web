@@ -1,0 +1,148 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { clubSections, type ClubSection } from '../../data/content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { sitePath } from '../../utils/urls';
+
+export const getStaticPaths = (() =>
+  clubSections.map((section) => ({ params: { slug: section.slug }, props: { section } }))) satisfies GetStaticPaths;
+
+interface Props {
+  section: ClubSection;
+}
+
+const { section } = Astro.props;
+const currentIndex = clubSections.findIndex((item) => item.slug === section.slug);
+const previous = clubSections[(currentIndex - 1 + clubSections.length) % clubSections.length];
+const next = clubSections[(currentIndex + 1) % clubSections.length];
+---
+
+<ContentLayout
+  title={section.name}
+  description={section.summary}
+  eyebrow={`Oddíl ${section.number}`}
+  activeNav="sections"
+>
+  <section class="section-detail">
+    <div class="section-statement">
+      <p class="section-number" aria-hidden="true">{section.number}</p>
+      <div>
+        {section.shortName && <p class="eyebrow red">Také jako {section.shortName}</p>}
+        <h2>{section.summary}</h2>
+      </div>
+    </div>
+
+    <div class="fact-grid">
+      <article>
+        <i class="ph ph-users-three" aria-hidden="true"></i>
+        <p>Pro koho</p>
+        <h3>{section.audience}</h3>
+      </article>
+      <article>
+        <i class="ph ph-calendar-blank" aria-hidden="true"></i>
+        <p>Kdy</p>
+        <h3>{section.activity}</h3>
+      </article>
+      <article>
+        <i class="ph ph-map-pin" aria-hidden="true"></i>
+        <p>Kde</p>
+        <h3>{section.venue}</h3>
+        <a href={sitePath('sportoviste/')}>Prohlédnout sportoviště</a>
+        {section.externalUrl && (
+          <a href={section.externalUrl} target="_blank" rel="noreferrer">
+            Externí web oddílu
+          </a>
+        )}
+      </article>
+    </div>
+  </section>
+
+  <nav class="section-pagination" aria-label="Další oddíly">
+    <a href={sitePath(`oddily/${previous.slug}/`)}>
+      <i class="ph ph-arrow-left" aria-hidden="true"></i>
+      <span><small>Předchozí</small>{previous.name}</span>
+    </a>
+    <a href={sitePath(`oddily/${next.slug}/`)}>
+      <span><small>Další</small>{next.name}</span>
+      <i class="ph ph-arrow-right" aria-hidden="true"></i>
+    </a>
+  </nav>
+</ContentLayout>
+
+<style>
+  .section-detail { padding: clamp(70px, 9vw, 130px) clamp(30px, 7.8vw, 120px); }
+
+  .section-statement {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: clamp(30px, 6vw, 100px);
+    margin-bottom: clamp(64px, 8vw, 110px);
+  }
+
+  .section-number {
+    margin: 0;
+    color: var(--red);
+    font-size: clamp(52px, 7vw, 104px);
+    font-weight: 760;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+  }
+
+  .section-statement h2 {
+    max-width: 1000px;
+    margin: 0;
+    font-size: clamp(36px, 5vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+
+  .fact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fact-grid article {
+    min-height: 310px;
+    padding: 38px clamp(24px, 4vw, 56px);
+    border-right: 1px solid var(--line);
+  }
+
+  .fact-grid article:last-child { border-right: 0; }
+  .fact-grid i { margin-bottom: 52px; color: var(--red); font-size: 34px; }
+  .fact-grid p { margin-bottom: 10px; color: var(--red); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fact-grid h3 { margin: 0; font-size: clamp(20px, 2vw, 29px); line-height: 1.25; letter-spacing: -0.035em; }
+  .fact-grid a { display: inline-block; margin-top: 24px; color: var(--red); font-weight: 700; text-underline-offset: 5px; }
+
+  .section-pagination { display: grid; grid-template-columns: 1fr 1fr; }
+  .section-pagination a {
+    display: flex;
+    min-height: 130px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 28px clamp(24px, 5vw, 76px);
+    border-right: 1px solid var(--line);
+    text-decoration: none;
+  }
+  .section-pagination a:last-child { border-right: 0; text-align: right; }
+  .section-pagination small { display: block; margin-bottom: 5px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; }
+  .section-pagination span { font-size: 22px; font-weight: 720; }
+  .section-pagination i { color: var(--red); font-size: 26px; }
+
+  @media (max-width: 860px) {
+    .section-statement { grid-template-columns: 1fr; }
+    .fact-grid { grid-template-columns: 1fr; }
+    .fact-grid article { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .fact-grid article:last-child { border-bottom: 0; }
+    .fact-grid i { margin-bottom: 28px; }
+  }
+
+  @media (max-width: 560px) {
+    .section-detail { padding-inline: 20px; }
+    .section-number { font-size: 56px; }
+    .section-pagination { grid-template-columns: 1fr; }
+    .section-pagination a { min-height: 102px; border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+</style>

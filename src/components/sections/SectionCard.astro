@@ -1,0 +1,76 @@
+---
+import type { ClubSection } from '../../data/content';
+import { sitePath } from '../../utils/urls';
+
+interface Props {
+  section: ClubSection;
+}
+
+const { section } = Astro.props;
+---
+
+<a class="section-card" href={sitePath(`oddily/${section.slug}/`)}>
+  <span class="section-number">{section.number}</span>
+  <span class="section-copy">
+    <span class="section-name">{section.name}</span>
+    <span class="section-summary">{section.summary}</span>
+  </span>
+  <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+</a>
+
+<style>
+  .section-card {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    min-height: 138px;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .section-card:last-child { border-bottom: 1px solid var(--line); }
+
+  .section-number {
+    align-self: start;
+    padding-top: 9px;
+    color: var(--red);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section-copy { display: grid; gap: 7px; }
+
+  .section-name {
+    font-size: clamp(25px, 2.5vw, 38px);
+    font-weight: 740;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+  }
+
+  .section-summary {
+    max-width: 610px;
+    color: var(--muted, #616161);
+    font-size: 16px;
+  }
+
+  .section-card > i {
+    color: var(--red);
+    font-size: 27px;
+    transition: transform 160ms ease;
+  }
+
+  .section-card:hover > i,
+  .section-card:focus-visible > i { transform: translate(5px, -5px); }
+
+  @media (max-width: 620px) {
+    .section-card {
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      min-height: 116px;
+      gap: 12px;
+    }
+
+    .section-summary { font-size: 14px; }
+  }
+</style>

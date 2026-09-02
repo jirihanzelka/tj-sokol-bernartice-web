@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import { historyPeriods } from '../../data/content';
+---
+
+<div class="timeline">
+  {historyPeriods.map((period, index) => (
+    <article class="period">
+      <div class="period-marker" aria-hidden="true">
+        <span>{String(index + 1).padStart(2, '0')}</span>
+      </div>
+      <div class="period-copy">
+        <p>{period.years}</p>
+        <h3>{period.title}</h3>
+      </div>
+      <a class="period-image" href={period.image.src} target="_blank" aria-label={`Otevřít přehled ${period.years} v plné velikosti`}>
+        <Image
+          src={period.image}
+          alt={period.imageAlt}
+          widths={[420, 720, 1000]}
+          sizes="(max-width: 820px) 100vw, 58vw"
+          loading={index === 0 ? 'eager' : 'lazy'}
+        />
+      </a>
+    </article>
+  ))}
+</div>
+
+<style>
+  .timeline { border-top: 1px solid var(--line); }
+
+  .period {
+    display: grid;
+    grid-template-columns: 54px minmax(190px, 0.55fr) minmax(0, 1fr);
+    gap: clamp(22px, 4vw, 70px);
+    padding: 38px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .period-marker { position: relative; color: var(--red); font-size: 14px; }
+  .period-marker::after {
+    position: absolute;
+    top: 30px;
+    bottom: -39px;
+    left: 10px;
+    width: 1px;
+    background: var(--line);
+    content: '';
+  }
+  .period:last-child .period-marker::after { display: none; }
+
+  .period-copy > p {
+    margin-bottom: 8px;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(25px, 2.6vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+  }
+
+  .period-image {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--soft);
+  }
+
+  .period-image :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 220ms ease;
+  }
+
+  .period-image:hover :global(img) { transform: scale(1.015); }
+
+  @media (max-width: 760px) {
+    .period { grid-template-columns: 34px 1fr; gap: 18px; }
+    .period-image { grid-column: 2; margin-top: 8px; }
+  }
+</style>

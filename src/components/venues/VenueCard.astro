@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import type { Venue } from '../../data/content';
+
+interface Props {
+  venue: Venue;
+  index: number;
+}
+
+const { venue, index } = Astro.props;
+---
+
+<article class:list={['venue-card', { reverse: index % 2 === 1 }]} id={venue.slug}>
+  <div class="venue-photo">
+    <Image
+      src={venue.image}
+      alt={venue.imageAlt}
+      widths={[560, 860, 1200]}
+      sizes="(max-width: 820px) 100vw, 52vw"
+      loading={index === 0 ? 'eager' : 'lazy'}
+    />
+  </div>
+  <div class="venue-copy">
+    <p class="venue-index">{String(index + 1).padStart(2, '0')}</p>
+    <h2>{venue.name}</h2>
+    <p class="venue-lead">{venue.summary}</p>
+    <p>{venue.detail}</p>
+    <dl>
+      <div>
+        <dt>Souřadnice</dt>
+        <dd>{venue.coordinates}</dd>
+      </div>
+    </dl>
+    <a class="venue-link" href={venue.mapUrl} target="_blank" rel="noreferrer">
+      Otevřít v mapě
+      <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+    </a>
+  </div>
+</article>
+
+<style>
+  .venue-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    align-items: stretch;
+    border-top: 1px solid var(--line);
+  }
+
+  .venue-card:last-child { border-bottom: 1px solid var(--line); }
+  .venue-card.reverse .venue-photo { order: 2; }
+
+  .venue-photo { min-height: 500px; overflow: hidden; background: var(--soft); }
+
+  .venue-photo :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .venue-copy {
+    display: flex;
+    min-height: 500px;
+    justify-content: center;
+    flex-direction: column;
+    padding: clamp(44px, 7vw, 100px);
+  }
+
+  .venue-index {
+    margin-bottom: 36px;
+    color: var(--red);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: clamp(38px, 4.4vw, 66px);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+  }
+
+  .venue-lead {
+    margin-bottom: 18px;
+    font-size: 20px;
+    font-weight: 650;
+    line-height: 1.4;
+  }
+
+  .venue-copy > p:not(.venue-index, .venue-lead) { color: var(--muted, #616161); }
+
+  dl { margin: 26px 0 30px; }
+  dl div { display: grid; gap: 4px; }
+  dt { color: var(--muted, #616161); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+  dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+  .venue-link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 28px;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--red);
+    color: var(--red);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (max-width: 880px) {
+    .venue-card { grid-template-columns: 1fr; }
+    .venue-card.reverse .venue-photo { order: initial; }
+    .venue-photo { min-height: 330px; }
+    .venue-copy { min-height: 0; padding: 44px 24px 60px; }
+    .venue-index { margin-bottom: 22px; }
+  }
+</style>
