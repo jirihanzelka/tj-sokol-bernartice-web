@@ -13,7 +13,7 @@
 | Oddíly | Hotovo jako šablona | Zobrazuje jen doložené minimum; aktuální skupiny, místa a termíny čekají na potvrzení TJ. |
 | Sportoviště | Hotovo | Převzaté fotografie a jejich práva čekají na potvrzení. |
 | Historie a galerie | Hotovo | Podklad končí rokem 2009; novější historii a práva k médiím musí potvrdit TJ. |
-| Kontakt | Dočasně vyřazen | Stránka, odkazy i původní adresy byly odstraněné; vrátí se až s novým potvrzeným e-mailem. |
+| Kontakt | Hotovo v patičce | Právní identita, předseda a telefon; bez nefunkčních historických e-mailů a formuláře. |
 | Podpora MSK 2021–2025 | Hotovo jako lokální preview | Před publikací je nutné doložit smluvní podmínky publicity a schválené logo. |
 | Build, typecheck, base-path a responzivní QA | Hotovo | Podrobnosti jsou v kořenovém `design-qa.md`. |
 
@@ -34,13 +34,13 @@ Primární stránky:
 
 Sekundární stránka: `/podpora/` — Podpora a partneři, včetně archivu MSK. Je dostupná z patičky a podle smluvních podmínek případně z klidného bloku před ní, ale nemá položku v hlavním menu.
 
-Hlavní navigace: **Program · Oddíly · Historie · Sportoviště**. Logo vede na úvod. Kontakt je dočasně mimo web a vrátí se až s novou potvrzenou adresou. Technická 404 stránka není součástí informační architektury.
+Hlavní navigace: **Program · Oddíly · Historie · Sportoviště**. Logo vede na úvod. Kontakt a právní identita jsou v patičce; e-mail ani formulář se bez nového potvrzeného kontaktu nezobrazují. Technická 404 stránka není součástí informační architektury.
 
 ### Co sloučit
 
 - **Historie + galerie:** jedna chronologická stránka. Každé období má krátký text, milník a několik souvisejících fotografií nebo album. Ne jeden dlouhý výpis obrázků.
 - **Každý oddíl:** představení, pro koho je, kdy a kde se schází, kontakt, nejbližší akce a několik fotografií. Původní Nástěnka, Vedení, Aktuality a Galerie se nestaví jako samostatné podstránky.
-- **Kontakt + vedení TJ:** jedna stránka; kontaktní formulář až tehdy, bude-li mít vlastníka, proces odpovědi a ochranu proti spamu.
+- **Kontakt + vedení TJ:** schválené minimum je ve společné patičce; samostatná stránka a formulář vzniknou pouze tehdy, přibude-li nový e-mail, vlastník odpovědí a ochrana proti spamu.
 - **Sportoviště:** tři místa na jedné stránce, případně s kotvami; bez tří téměř prázdných detailů.
 
 ### Co do první verze nepřenášet
@@ -155,7 +155,7 @@ Návrh musí ukázat:
 - praktické údaje „pro koho, kdy a kde“;
 - kontakt, místo, volitelnou nejbližší akci a několik fotografií;
 - stav s volitelnými bloky i bez nich;
-- jasný přechod k Programu nebo Kontaktům.
+- jasný přechod k Programu nebo ke společným kontaktním údajům v patičce.
 
 **Review gate:** nejdřív schválit tento jeden vzor; teprve potom z něj odvodit další vnitřní stránky.
 
@@ -171,9 +171,9 @@ Hotovo, když jsou doložené mobilní stavy, focus/hover stavy a pravidla pro d
 #### T3.1 — Kontakt a vedení TJ
 
 **Závislost:** T1.3, T2.2, ověřené kontakty z T0.2
-**Výstup:** validovaná globální kontaktní data, `/kontakt/` s identitou TJ, vedením, e-mailem/telefonem a sídlem a přepnutý vstup z navigace/homepage.
+**Výstup:** validovaná globální kontaktní data v patičce: právní název, IČO, sídlo, předseda a telefon. E-mail, formulář ani samostatná `/kontakt/` nejsou součástí schváleného rozsahu.
 
-Hotovo, když je možné kontakt použít bez formuláře a nejsou zveřejněné neověřené nebo zbytečné osobní údaje.
+Hotovo, když je možné kontakt použít bez formuláře a nejsou zveřejněné neověřené nebo zbytečné osobní údaje. Splněno 3. září 2026.
 
 #### T3.2 — Přehled oddílů a jejich detail
 
@@ -297,7 +297,7 @@ Pro přehledný review a malé riziko změn seskupit práci takto:
 
 1. **PR 1 — Foundation:** T1.1–T1.3, bez vizuální změny.
 2. **Design gate:** T2.1–T2.2, schválení před stavbou opakovaných vnitřních stránek.
-3. **PR 2 — Kontakt:** T3.1 a jeho vstup z navigace/homepage.
+3. **PR 2 — Kontakt:** T3.1 ve společné patičce bez samostatné stránky.
 4. **PR 3 — Oddíly:** T3.2 a jeho vstupy z navigace/homepage.
 5. **PR 4 — Program:** T3.4 a skutečná nejbližší akce na homepage.
 6. **PR 5 — Sportoviště:** T3.3 a jeho teaser na homepage.
