@@ -18,7 +18,7 @@ Zdrojová a implementační homepage byly porovnány společně při téměř sh
 
 ## Výsledek vizuálního srovnání
 
-Homepage zachovává původní vizuální jazyk: Manrope, červenou značku, velkou fotografii u Odry, bílou plovoucí hlavičku, stejné měřítko hero textu, trojici rychlých vstupů a střídmé linky. Záměrné změny jsou pouze obsahové a navigační: přibyly Historie a Sportoviště, zmizel nadbytečný desktopový hamburger a smyšlená ukázková akce byla nahrazena poctivým prázdným stavem.
+Homepage zachovává původní vizuální jazyk: Manrope, červenou značku, velkou fotografii u Odry, výrazný hero text a střídmé linky. Záměrné změny jsou obsahové a navigační: přibyly Historie a Sportoviště, zmizel nadbytečný desktopový hamburger i duplicitní rychlé odkazy a smyšlená ukázková akce byla nahrazena poctivým prázdným stavem.
 
 Historie převádí úzký, dlouhý Webnode výpis do stejného design systému jako homepage: jasný úvod, jeden výrazný archivní snímek, editovaná časová osa, čtyři dochované kroniky a kurátorská galerie. Obsah zůstává čitelný bez povinného JavaScriptu.
 
@@ -70,6 +70,32 @@ Historie převádí úzký, dlouhý Webnode výpis do stejného design systému 
 ## Oddělené release podmínky
 
 Vizuální a technická implementace prošla. Veřejné nasazení ale zůstává vědomě oddělené: TJ musí potvrdit vlastnictví a práva k převzatým fotografiím a kronikám a smluvní podmínky použití loga MSK. Kontakt je do dodání nového e-mailu mimo web. Evidence je v `docs/content-source-register.md`. Žádný commit ani push v tomto běhu neproběhl.
+
+## Šířkový redesign — 3. září 2026
+
+### Aktuální evidence
+
+- Desktop: `design-qa-width-desktop.jpg` (1425 × 1013 px; CSS viewport 1440 × 1024).
+- Mobil: `design-qa-width-mobile.jpg` (375 × 812 px; CSS viewport 390 × 844).
+- Otevřené mobilní menu: `design-qa-width-menu.jpg` (375 × 812 px).
+- Prohlížeč: Codex in-app browser proti `http://127.0.0.1:4328/tj-sokol-bernartice-web/`, DPR 1.
+- Snímky zachycují aktuální homepage po odstranění duplicitních rychlých odkazů.
+
+### Výsledek
+
+- Hlavička, `main` a patička mají společný limit 1200 px a na širších monitorech jsou vystředěné na neutrálním pozadí.
+- Hlavička je kompaktní a sticky; desktopová navigace má bezpečný 24px odstup od pravého okraje.
+- Hero je nižší, typografie a mezery klidnější a program navazuje přímo pod fotografií.
+- Hover mění jen neaktivní odkazy; aktivní položka používá jediný červený indikátor.
+- Mobilní obsah nepřetéká vodorovně a na homepage nemá žádná položka menu falešně aktivní stav.
+
+### Ověření
+
+- Při viewportu 1440 px byla DOM měřením potvrzena šířka hlavičky i hlavního obsahu 1200 px.
+- Mobilní menu bylo otevřeno a obsahovalo všechny čtyři odkazy bez `aria-current`.
+- Prohlížeč: 0 errors, 0 warnings.
+- `npm run build`: exit 0; Astro check 23 souborů, 0 errors, 0 warnings, 0 hints; 13 statických stránek a 58 optimalizovaných obrazových výstupů.
+- `git diff --check`: exit 0.
 
 ## Final result
 
