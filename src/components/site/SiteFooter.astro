@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import mskLogo from '../../assets/supporters/msk.png';
 import { site } from '../../data/site';
 import { sitePath } from '../../utils/urls';
 
@@ -7,11 +9,17 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="footer-content">
-    <section>
+    <section class="footer-support" aria-labelledby="footer-support-title">
       <p class="eyebrow red">Podpora</p>
-      <h2>Pomáhají nám.</h2>
+      <h2 id="footer-support-title">Pomáhají nám.</h2>
+      <div class="footer-support-logo">
+        <Image src={mskLogo} alt="" width={407} height={124} />
+      </div>
+      <p class="footer-support-copy">
+        V letech 2021–2025 nás podporoval a spolufinancoval Moravskoslezský kraj.
+      </p>
       <nav class="footer-links" aria-label="Odkazy v patičce">
-        <a href={sitePath(site.supportPath)}>Podpora a partneři</a>
+        <a href={sitePath(site.supportPath)}>Podrobnosti o podpoře</a>
       </nav>
     </section>
 
@@ -49,6 +57,31 @@ const year = new Date().getFullYear();
     display: grid;
     grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
     gap: clamp(56px, 9vw, 120px);
+  }
+
+  .footer-support { max-width: 420px; }
+
+  .footer-support-logo {
+    display: grid;
+    width: min(100%, 330px);
+    min-height: 132px;
+    margin: 30px 0 20px;
+    place-items: center;
+    padding: 20px;
+    background: var(--soft);
+  }
+
+  .footer-support-logo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .footer-support-copy {
+    max-width: 380px;
+    margin-bottom: 20px;
+    color: var(--muted);
+    font-size: 17px;
   }
 
   .footer-contact dl {
