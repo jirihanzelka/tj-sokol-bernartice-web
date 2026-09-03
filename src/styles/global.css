@@ -201,10 +201,7 @@
     text-decoration: none;
   }
 
-  .mobile-menu a:last-child {
-    border-bottom: 0;
-    color: var(--red);
-  }
+  .mobile-menu a:last-child { border-bottom: 0; }
 
   .hero {
     position: relative;
@@ -310,44 +307,6 @@
     border-radius: 0;
     color: #fff;
   }
-
-  .quick-links {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    min-height: 112px;
-    border-bottom: 1px solid var(--line);
-    background: #fff;
-  }
-
-  .quick-links a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 0 clamp(28px, 5.5vw, 88px);
-    border-right: 1px solid var(--line);
-    font-size: clamp(20px, 1.9vw, 28px);
-    font-weight: 720;
-    letter-spacing: -0.04em;
-    text-decoration: none;
-    transition: color 160ms ease, background-color 160ms ease;
-  }
-
-  .quick-links a:last-child { border-right: 0; }
-
-  .quick-links i {
-    color: var(--red);
-    font-size: 28px;
-    transition: transform 160ms ease;
-  }
-
-  .quick-links a:hover,
-  .quick-links a:focus-visible {
-    color: var(--red);
-    background: #fafafa;
-  }
-
-  .quick-links a:hover i { transform: translateX(6px); }
 
   .next-event {
     display: grid;
@@ -514,7 +473,6 @@
     outline-offset: 4px;
   }
 
-  .quick-links :focus-visible,
   .next-event :focus-visible,
   .content-section :focus-visible,
   footer :focus-visible,
@@ -606,16 +564,6 @@
       width: 100%;
       justify-content: space-between;
     }
-
-    .quick-links { grid-template-columns: 1fr; }
-
-    .quick-links a {
-      min-height: 82px;
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .quick-links a:last-child { border-bottom: 0; }
 
     .next-event {
       grid-template-columns: auto 1fr;
