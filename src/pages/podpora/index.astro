@@ -33,7 +33,7 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
       <p class="eyebrow red">Archiv 2021–2025</p>
       <h2 id="archive-title">Pět doložených roků.</h2>
       <p>
-        Datum u každé položky označuje zveřejnění původního oznámení, nikoli datum poskytnutí
+        Datum u každé položky označuje původní zveřejnění archivního záznamu, nikoli datum poskytnutí
         podpory. Podporu pro rok 2026 tato stránka netvrdí.
       </p>
     </div>
@@ -42,10 +42,6 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
         <li>
           <span class="archive-year">{item.year}</span>
           <span class="archive-date"><small>Zveřejněno</small>{item.published}</span>
-          <a href={item.source} target="_blank" rel="noreferrer">
-            Původní oznámení
-            <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
-          </a>
         </li>
       ))}
     </ol>
@@ -76,11 +72,10 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
   }
   .archive-heading > p:last-child { max-width: 530px; color: var(--muted); }
   .archive-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid #cececa; }
-  .archive-list li { display: grid; grid-template-columns: 100px minmax(0, 1fr) auto; min-height: 104px; align-items: center; gap: 22px; border-bottom: 1px solid #cececa; }
+  .archive-list li { display: grid; grid-template-columns: 100px minmax(0, 1fr); min-height: 104px; align-items: center; gap: 22px; border-bottom: 1px solid #cececa; }
   .archive-year { color: var(--red); font-size: 30px; font-weight: 760; font-variant-numeric: tabular-nums; }
   .archive-date { font-variant-numeric: tabular-nums; }
   .archive-date small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .archive-list a { display: inline-flex; align-items: center; gap: 16px; color: var(--red); font-weight: 680; text-decoration: none; }
 
   @media (max-width: 880px) {
     .support-lead,
@@ -91,6 +86,5 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
     .support-archive { padding-inline: 20px; }
     .support-logo { min-height: 220px; padding: 28px; }
     .archive-list li { grid-template-columns: 72px 1fr; padding: 20px 0; }
-    .archive-list a { grid-column: 2; }
   }
 </style>

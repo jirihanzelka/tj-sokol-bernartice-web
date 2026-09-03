@@ -232,26 +232,21 @@ export const supportYears = [
   {
     year: 2025,
     published: '17. 3. 2026 13:17',
-    source: 'https://tjbernasticenadodrou.webnode.cz/news/podpora-msk-2025/',
   },
   {
     year: 2024,
     published: '7. 11. 2024 07:28',
-    source: 'https://tjbernasticenadodrou.webnode.cz/news/podpora-msk-2024/',
   },
   {
     year: 2023,
     published: '7. 2. 2024 07:31',
-    source: 'https://tjbernasticenadodrou.webnode.cz/news/podpora-msk-2023/',
   },
   {
     year: 2022,
     published: '12. 12. 2022 12:48',
-    source: 'https://tjbernasticenadodrou.webnode.cz/news/podpora-msk-2022/',
   },
   {
     year: 2021,
     published: '14. 12. 2021 15:24',
-    source: 'https://tjbernasticenadodrou.webnode.cz/news/podpora-msk-2021/',
   },
 ];

@@ -258,7 +258,7 @@ Pozor: uvedené datum je **přesně zobrazený údaj původního webu o zveřejn
 
 Hotovo, když:
 
-- archiv obsahuje všech pět ověřených roků 2021–2025 a odkazy na zdroj;
+- archiv obsahuje všech pět ověřených roků 2021–2025 a je na starém webu obsahově nezávislý; zdrojové odkazy zůstávají pouze v interní dokumentaci;
 - lokální logo pochází ze schváleného podkladu MSK nebo smluvních materiálů, má evidovaný zdroj/verzi, není svévolně upravené a dodržuje aktuální manuál;
 - atribuce má jednoznačný přístupný název bez duplicitního čtení: `alt="Moravskoslezský kraj"`, nebo `alt=""`, pokud stejný název poskytuje bezprostřední viditelný text či odkaz;
 - je-li doložena podpora pro aktuální rok, její smluvně požadovaná publicita je viditelná v určeném rozsahu; jinak stránka uvádí pouze doložené roky 2021–2025;
